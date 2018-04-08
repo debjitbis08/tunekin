@@ -2,73 +2,46 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 
+import braveBanner from '../img/switch_banner_1@2x.png'
+
 export default class IndexPage extends React.Component {
   render() {
-    const { data } = this.props
-    const { edges: posts } = data.allMarkdownRemark
-
     return (
       <section className="section">
         <div className="container">
           <div className="content">
-            <h1 className="has-text-weight-bold is-size-2">Latest Stories</h1>
+            <h1 className="has-text-weight-bold is-size-2">We'll be back!</h1>
+            <p>
+              We are updating TuneKin to be better, more beautiful and free.
+            </p>
+            <h2>It was free earlier too right?</h2>
+            <p>
+              Not, if you consider the ads showing up. The ads track your every move
+              on the Internet, so we are going to remove them.
+            </p>
+            <h2>But, how will you pay for the hosting?</h2>
+            <p>
+              The ads were not paying for the hosting anyway. But, to keep the servers
+              running we had to pay, which now we can't. So we have decided to move to
+              a free hosting and change the technology to support it.
+            </p>
+            <h2>When will you be back?</h2>
+            <p>
+              We cannot predict a timeframe. We develop this in our free time and this is
+              just a hobby project.
+            </p>
+            <div>
+              You can support the development and the maintainence of this site by supporting 
+              us through the Brave browser.
+              <p>
+                <a href="https://brave.com/deb442" target="_blank">
+                  <img src={braveBanner} style={{width: "217px"}}/>
+                </a>
+              </p>
+            </div>
           </div>
-          {posts
-            .filter(post => post.node.frontmatter.templateKey === 'blog-post')
-            .map(({ node: post }) => (
-              <div
-                className="content"
-                style={{ border: '1px solid #eaecee', padding: '2em 4em' }}
-                key={post.id}
-              >
-                <p>
-                  <Link className="has-text-primary" to={post.fields.slug}>
-                    {post.frontmatter.title}
-                  </Link>
-                  <span> &bull; </span>
-                  <small>{post.frontmatter.date}</small>
-                </p>
-                <p>
-                  {post.excerpt}
-                  <br />
-                  <br />
-                  <Link className="button is-small" to={post.fields.slug}>
-                    Keep Reading →
-                  </Link>
-                </p>
-              </div>
-            ))}
         </div>
       </section>
     )
   }
 }
-
-IndexPage.propTypes = {
-  data: PropTypes.shape({
-    allMarkdownRemark: PropTypes.shape({
-      edges: PropTypes.array,
-    }),
-  }),
-}
-
-export const pageQuery = graphql`
-  query IndexQuery {
-    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
-      edges {
-        node {
-          excerpt(pruneLength: 400)
-          id
-          fields {
-            slug
-          }
-          frontmatter {
-            title
-            templateKey
-            date(formatString: "MMMM DD, YYYY")
-          }
-        }
-      }
-    }
-  }
-`
